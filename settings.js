@@ -179,8 +179,16 @@ async function renderDashboard() {
         try { var h = new URL(e.url).hostname; counts[h] = (counts[h]||0) + 1; } catch(ex) { counts[e.url] = (counts[e.url]||0) + 1; }
       });
       var sorted = Object.entries(counts).sort(function(a,b) { return b[1] - a[1]; }).slice(0,10);
-      if (sorted.length === 0) td.innerHTML = '<div class="empty-state">Not supported in Firefox</div>';
-      else td.innerHTML = sorted.map(function(x) { return '<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #eee"><span>' + x[0] + '</span><span style="color:#e94560">' + x[1] + '</span></div>'; }).join('');
+      if (sorted.length === 0) {
+        var emptyDiv = document.createElement('div'); emptyDiv.className = 'empty-state'; emptyDiv.textContent = 'Not supported in Firefox'; td.appendChild(emptyDiv);
+      } else {
+        sorted.forEach(function(x) {
+          var row = document.createElement('div'); row.style.cssText = 'display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #eee';
+          var nameSpan = document.createElement('span'); nameSpan.textContent = x[0];
+          var countSpan = document.createElement('span'); countSpan.style.cssText = 'color:#e94560'; countSpan.textContent = x[1];
+          row.appendChild(nameSpan); row.appendChild(countSpan); td.appendChild(row);
+        });
+      }
     }
 
     // Tracker Categories (Ghostery-style) + update tracked domains count
@@ -194,17 +202,25 @@ async function renderDashboard() {
       if (tcr && tcr.categories) {
         var catKeys = Object.keys(tcr.categories);
         if (catKeys.length === 0) {
-          tc.innerHTML = '<div class="empty-state">No trackers detected yet</div>';
+          var emptyDiv = document.createElement('div'); emptyDiv.className = 'empty-state'; emptyDiv.textContent = 'No trackers detected yet'; tc.appendChild(emptyDiv);
         } else {
           var catColors = { Advertising:'#e94560', Analytics:'#ffc107', 'Social Media':'#1877f2', CDN:'#6f42c1', Hosting:'#20c997', Fonts:'#fd7e14', Other:'#888' };
-          tc.innerHTML = '<div style="margin-bottom:8px;font-size:11px;color:#888">Detected <strong>' + (tcr.total||0) + '</strong> unique trackers, <strong>' + (tcr.blocked||0) + '</strong> auto-blocked</div>' +
-            '<div style="display:flex;flex-wrap:wrap;gap:6px">' +
-            catKeys.map(function(c) {
-              var info = tcr.categories[c];
-              return '<div style="flex:1;min-width:100px;padding:8px;background:#f8f9fa;border-radius:6px;border:1px solid #e0e0e0;text-align:center">' +
-                '<div style="font-size:18px;font-weight:700;color:' + (catColors[c]||'#888') + '">' + info.count + '</div>' +
-                '<div style="font-size:9px;color:#888;text-transform:uppercase;margin-top:2px">' + c + '</div></div>';
-            }).join('') + '</div>';
+          var summary = document.createElement('div'); summary.style.cssText = 'margin-bottom:8px;font-size:11px;color:#888';
+          summary.textContent = 'Detected ' + (tcr.total||0) + ' unique trackers, ' + (tcr.blocked||0) + ' auto-blocked';
+          tc.appendChild(summary);
+          var flexWrap = document.createElement('div'); flexWrap.style.cssText = 'display:flex;flex-wrap:wrap;gap:6px';
+          catKeys.forEach(function(c) {
+            var info = tcr.categories[c];
+            var box = document.createElement('div'); box.style.cssText = 'flex:1;min-width:100px;padding:8px;background:#f8f9fa;border-radius:6px;border:1px solid #e0e0e0;text-align:center';
+            var countDiv = document.createElement('div'); countDiv.style.cssText = 'font-size:18px;font-weight:700;color:' + (catColors[c]||'#888');
+            countDiv.textContent = info.count;
+            box.appendChild(countDiv);
+            var catDiv = document.createElement('div'); catDiv.style.cssText = 'font-size:9px;color:#888;text-transform:uppercase;margin-top:2px';
+            catDiv.textContent = c;
+            box.appendChild(catDiv);
+            flexWrap.appendChild(box);
+          });
+          tc.appendChild(flexWrap);
         }
       } else {
         tc.innerHTML = '<div class="empty-state">Loading...</div>';
@@ -408,8 +424,15 @@ async function refreshFilterLog() {
     var recent = log.slice(-50).reverse();
     var el = $('filterLogList');
     if (el) {
-      if (recent.length === 0) el.innerHTML = '<div class="empty-state">No entries.</div>';
-      else el.innerHTML = recent.map(function(e) { return '<div class="log-entry">[' + (e.ruleId||'?') + '] ' + (e.url||'') + ' ' + (e.ts?new Date(e.ts).toLocaleTimeString():''); }).join('');
+      if (recent.length === 0) {
+        var emptyDiv = document.createElement('div'); emptyDiv.className = 'empty-state'; emptyDiv.textContent = 'No entries.'; el.appendChild(emptyDiv);
+      } else {
+        recent.forEach(function(e) {
+          var entry = document.createElement('div'); entry.className = 'log-entry';
+          entry.textContent = '[' + (e.ruleId||'?') + '] ' + (e.url||'') + ' ' + (e.ts?new Date(e.ts).toLocaleTimeString():'');
+          el.appendChild(entry);
+        });
+      }
     }
     if ($('filterLogCount')) $('filterLogCount').textContent = log.length + ' entries';
   } catch(e) {}

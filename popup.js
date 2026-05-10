@@ -28,6 +28,54 @@ function loadTrackers() {
   });
 }
 
+function createTrackerItem(t) {
+  const cur = t.action || 'none';
+  const siteCount = t.sites ? t.sites.length : 0;
+  let heatColor = '#28a745';
+  if (siteCount > 50) heatColor = '#dc3545';
+  else if (siteCount > 10) heatColor = '#fd7e14';
+  else if (siteCount > 2) heatColor = '#ffc107';
+
+  const item = document.createElement('div');
+  item.className = 'tracker-item';
+  item.dataset.domain = t.domain;
+
+  const domainSpan = document.createElement('span');
+  domainSpan.className = 'tracker-domain';
+  domainSpan.title = t.domain + ' (' + siteCount + ' sites)';
+  domainSpan.textContent = t.domain;
+  item.appendChild(domainSpan);
+
+  if (siteCount > 0) {
+    const badge = document.createElement('span');
+    badge.className = 'heat-badge';
+    badge.style.cssText = 'display:inline-block;width:8px;height:8px;border-radius:50%;background:' + heatColor + ';margin-right:4px;flex-shrink:0;vertical-align:middle';
+    badge.title = 'Seen on ' + siteCount + ' sites';
+    item.insertBefore(badge, item.firstChild);
+  }
+
+  const actions = document.createElement('div');
+  actions.className = 'tracker-actions';
+
+  for (const a of [{label:'A',action:'allow',cls:'active-allow'},{label:'C',action:'cookie-block',cls:'active-cookie'},{label:'B',action:'block',cls:'active-block'}]) {
+    const btn = document.createElement('button');
+    btn.className = 'action-btn' + (cur === a.action ? ' ' + a.cls : '');
+    btn.dataset.action = a.action;
+    btn.title = a.label === 'A' ? 'Allow' : a.label === 'C' ? 'Block cookies only' : 'Block';
+    btn.textContent = a.label;
+    btn.addEventListener('click', () => {
+      chrome.runtime.sendMessage({ type: 'setTrackerAction', domain: t.domain, action: a.action }, () => {
+        actions.querySelectorAll('.action-btn').forEach(b => b.className = 'action-btn');
+        btn.className = 'action-btn ' + a.cls;
+      });
+    });
+    actions.appendChild(btn);
+  }
+
+  item.appendChild(actions);
+  return item;
+}
+
 function renderTrackerList(trackers) {
   const section = document.getElementById('trackerSection');
   const list = document.getElementById('trackerList');
@@ -35,42 +83,8 @@ function renderTrackerList(trackers) {
   if (!trackers.length) { section.style.display = 'none'; return; }
   section.style.display = 'block';
   count.textContent = trackers.length;
-  list.innerHTML = trackers.map(t => {
-    const cur = t.action || 'none';
-    const isAllow = cur === 'allow';
-    const isCookie = cur === 'cookie-block';
-    const isBlock = cur === 'block';
-    const siteCount = t.sites ? t.sites.length : 0;
-    let heatColor = '#28a745';
-    if (siteCount > 50) heatColor = '#dc3545';
-    else if (siteCount > 10) heatColor = '#fd7e14';
-    else if (siteCount > 2) heatColor = '#ffc107';
-    const heatBadge = siteCount > 0 ? '<span class="heat-badge" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:' + heatColor + ';margin-right:4px;flex-shrink:0" title="Seen on ' + siteCount + ' sites"></span>' : '';
-    return '<div class="tracker-item" data-domain="' + t.domain + '">' +
-      heatBadge +
-      '<span class="tracker-domain" title="' + t.domain + ' (' + siteCount + ' sites)">' + t.domain + '</span>' +
-      '<div class="tracker-actions">' +
-        '<button class="action-btn' + (isAllow ? ' active-allow' : '') + '" data-action="allow" title="Allow">A</button>' +
-        '<button class="action-btn' + (isCookie ? ' active-cookie' : '') + '" data-action="cookie-block" title="Block cookies only">C</button>' +
-        '<button class="action-btn' + (isBlock ? ' active-block' : '') + '" data-action="block" title="Block">B</button>' +
-      '</div></div>';
-  }).join('');
-  list.querySelectorAll('.tracker-item').forEach(item => {
-    const domain = item.dataset.domain;
-    item.querySelectorAll('.action-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const action = btn.dataset.action;
-        chrome.runtime.sendMessage({ type: 'setTrackerAction', domain, action }, () => {
-          item.querySelectorAll('.action-btn').forEach(b => {
-            b.className = 'action-btn';
-          });
-          if (action === 'allow') btn.className = 'action-btn active-allow';
-          else if (action === 'cookie-block') btn.className = 'action-btn active-cookie';
-          else if (action === 'block') btn.className = 'action-btn active-block';
-        });
-      });
-    });
-  });
+  list.textContent = '';
+  trackers.forEach(t => list.appendChild(createTrackerItem(t)));
 }
 
 chrome.storage.local.get('durgashield_enabled', (r) => {

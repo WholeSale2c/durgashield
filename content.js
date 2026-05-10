@@ -578,7 +578,15 @@
     const bar = document.createElement('div');
     bar.id = 'durgashield-container-bar';
     bar.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:2147483647;background:linear-gradient(135deg,#1877f2,#0d5ab9);color:white;padding:6px 16px;font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;font-size:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;gap:8px;border-bottom:2px solid rgba(255,255,255,0.2)';
-    bar.innerHTML = '<span style="font-size:14px;">\u{1F6E1}</span> DurgaShield Container <span style="opacity:0.8;font-size:11px;">\u2022 Your activity here is isolated</span>';
+    var iconSpan = document.createElement('span');
+    iconSpan.style.cssText = 'font-size:14px;';
+    iconSpan.textContent = '\u{1F6E1}';
+    bar.appendChild(iconSpan);
+    bar.appendChild(document.createTextNode(' DurgaShield Container '));
+    var subSpan = document.createElement('span');
+    subSpan.style.cssText = 'opacity:0.8;font-size:11px;';
+    subSpan.textContent = '\u2022 Your activity here is isolated';
+    bar.appendChild(subSpan);
     document.documentElement.style.marginTop = '32px';
     document.body.prepend(bar);
   }
