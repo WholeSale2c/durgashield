@@ -934,6 +934,7 @@ chrome.runtime.onInstalled.addListener(async () => {
   await initCDNFileCache();
   if (config.cdnReplacement) installCDNReplacement();
   if (config.httpsEnforce) installHTTPSEnforcement();
+  await installSiteAllowRules();
   await installTrackingCleaner();
   await cleanFilterLog();
 });
@@ -949,6 +950,7 @@ chrome.runtime.onStartup.addListener(async () => {
   await initCDNFileCache();
   if (config.cdnReplacement) installCDNReplacement();
   if (config.httpsEnforce) installHTTPSEnforcement();
+  await installSiteAllowRules();
   await installTrackingCleaner();
 });
 
@@ -1519,6 +1521,40 @@ async function installTrackingCleaner() {
     const rules = buildTrackingCleanerRules();
     await chrome.declarativeNetRequest.updateSessionRules({ removeRuleIds: oldIds, addRules: rules });
   } catch (e) { console.warn('DurgaShield: tracking cleaner install error:', e); }
+}
+
+/* ---------- Site Compatibility Allow Rules ---------- */
+const GITHUB_ALLOW_START = 997000;
+const ALLOWED_SITES = [
+  { domain: 'github.com', desc: 'GitHub main' },
+  { domain: 'github.io', desc: 'GitHub Pages' },
+  { domain: 'githubusercontent.com', desc: 'GitHub user content' },
+  { domain: 'github.githubassets.com', desc: 'GitHub assets' },
+  { domain: 'githubstatus.com', desc: 'GitHub status' }
+];
+function buildSiteAllowRules() {
+  return ALLOWED_SITES.flatMap((site, i) => [
+    {
+      id: GITHUB_ALLOW_START + i * 2,
+      priority: 10,
+      action: { type: 'allow' },
+      condition: { urlFilter: '||' + site.domain + '^', resourceTypes: ['script', 'stylesheet', 'font', 'image', 'xmlhttprequest', 'other'] }
+    },
+    {
+      id: GITHUB_ALLOW_START + i * 2 + 1,
+      priority: 10,
+      action: { type: 'allow' },
+      condition: { initiatorDomains: [site.domain], resourceTypes: ['main_frame', 'sub_frame'] }
+    }
+  ]);
+}
+async function installSiteAllowRules() {
+  try {
+    const existing = await chrome.declarativeNetRequest.getSessionRules();
+    const oldIds = existing.filter(r => r.id >= GITHUB_ALLOW_START && r.id < GITHUB_ALLOW_START + 50).map(r => r.id);
+    const rules = buildSiteAllowRules();
+    await chrome.declarativeNetRequest.updateSessionRules({ removeRuleIds: oldIds, addRules: rules });
+  } catch (e) { console.warn('DurgaShield: allow rules install error:', e); }
 }
 
 /* ---------- CDN Replacement ---------- */

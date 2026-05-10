@@ -374,6 +374,11 @@ After modifying rules JSON files, validate JSON syntax. After changing backgroun
 
 Keep README.md updated when adding or modifying features.
 
+## Feedback & Support
+
+- **Report bugs or request features**: Open an issue at [github.com/WholeSale2c/durgashield/issues](https://github.com/WholeSale2c/durgashield/issues)
+- **Source code**: [github.com/WholeSale2c/durgashield](https://github.com/WholeSale2c/durgashield)
+
 ## License
 
 MIT
