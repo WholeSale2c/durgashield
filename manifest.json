@@ -1,0 +1,113 @@
+{
+  "manifest_version": 3,
+  "name": "DurgaShield",
+  "version": "1.0.0",
+  "description": "All-in-one privacy & security: ad blocker, anti-track, malware/phishing protection, social media filter, annoyance blocker, stealth mode & more",
+  "permissions": [
+    "declarativeNetRequest",
+    "declarativeNetRequestFeedback",
+    "storage",
+    "alarms",
+    "unlimitedStorage",
+    "notifications",
+    "tabs",
+    "contextualIdentities"
+  ],
+  "optional_permissions": [
+    "cookies",
+    "downloads",
+    "webNavigation",
+    "scripting"
+  ],
+  "host_permissions": ["<all_urls>"],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "ads",
+        "enabled": true,
+        "path": "rules/ads.json"
+      },
+      {
+        "id": "malware",
+        "enabled": true,
+        "path": "rules/malware.json"
+      },
+      {
+        "id": "crypto",
+        "enabled": true,
+        "path": "rules/crypto.json"
+      },
+      {
+        "id": "phishing",
+        "enabled": true,
+        "path": "rules/phishing.json"
+      },
+      {
+        "id": "cdn",
+        "enabled": true,
+        "path": "rules/cdn.json"
+      },
+      {
+        "id": "social",
+        "enabled": true,
+        "path": "rules/social.json"
+      },
+      {
+        "id": "annoyance",
+        "enabled": true,
+        "path": "rules/annoyance.json"
+      }
+    ]
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_start",
+      "all_frames": true,
+      "match_about_blank": true
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["resources/lib/*"],
+      "matches": [
+        "*://ajax.googleapis.com/*",
+        "*://cdnjs.cloudflare.com/*",
+        "*://cdn.jsdelivr.net/*",
+        "*://stackpath.bootstrapcdn.com/*",
+        "*://maxcdn.bootstrapcdn.com/*",
+        "*://ajax.aspnetcdn.com/*",
+        "*://yastatic.net/*"
+      ]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "DurgaShield",
+    "default_icon": {
+      "16": "icons/icon-16.svg",
+      "48": "icons/icon-48.svg",
+      "128": "icons/icon-128.svg"
+    }
+  },
+  "icons": {
+    "16": "icons/icon-16.svg",
+    "48": "icons/icon-48.svg",
+    "128": "icons/icon-128.svg"
+  },
+  "options_ui": {
+    "page": "settings.html",
+    "browser_style": true,
+    "open_in_tab": true
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "durgashield@security.extension",
+      "strict_min_version": "102.0"
+    }
+  }
+}

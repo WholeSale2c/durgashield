@@ -1,0 +1,167 @@
+[
+  {
+    "host": "ajax.googleapis.com",
+    "pathPattern": "^/ajax/libs/jquery/([^/]+)/(jquery[^/]*)$",
+    "localTemplate": "lib/jquery/$1/$2"
+  },
+  {
+    "host": "ajax.googleapis.com",
+    "pathPattern": "^/ajax/libs/angularjs/([^/]+)/(angular[^/]*)$",
+    "localTemplate": "lib/angular/$1/$2"
+  },
+  {
+    "host": "cdnjs.cloudflare.com",
+    "pathPattern": "^/ajax/libs/jquery/([^/]+)/(jquery[^/]*)$",
+    "localTemplate": "lib/jquery/$1/$2"
+  },
+  {
+    "host": "cdnjs.cloudflare.com",
+    "pathPattern": "^/ajax/libs/twitter-bootstrap/([^/]+)/(css/bootstrap[^/]*)$",
+    "localTemplate": "lib/bootstrap/$1/css/$2"
+  },
+  {
+    "host": "cdnjs.cloudflare.com",
+    "pathPattern": "^/ajax/libs/twitter-bootstrap/([^/]+)/(js/bootstrap[^/]*)$",
+    "localTemplate": "lib/bootstrap/$1/js/$2"
+  },
+  {
+    "host": "cdnjs.cloudflare.com",
+    "pathPattern": "^/ajax/libs/twitter-bootstrap/([^/]+)/(js/bootstrap\\.bundle[^/]*)$",
+    "localTemplate": "lib/bootstrap/$1/js/$2"
+  },
+  {
+    "host": "cdnjs.cloudflare.com",
+    "pathPattern": "^/ajax/libs/vue/([^/]+)/(vue[^/]*)$",
+    "localTemplate": "lib/vue/$1/$2"
+  },
+  {
+    "host": "cdnjs.cloudflare.com",
+    "pathPattern": "^/ajax/libs/react/([^/]+)/(react[^/]*)$",
+    "localTemplate": "lib/react/$1/$2"
+  },
+  {
+    "host": "cdnjs.cloudflare.com",
+    "pathPattern": "^/ajax/libs/react-dom/([^/]+)/(react-dom[^/]*)$",
+    "localTemplate": "lib/react/$1/$2"
+  },
+  {
+    "host": "cdnjs.cloudflare.com",
+    "pathPattern": "^/ajax/libs/lodash\\.js/([^/]+)/(lodash[^/]*)$",
+    "localTemplate": "lib/lodash/$1/$2"
+  },
+  {
+    "host": "cdnjs.cloudflare.com",
+    "pathPattern": "^/ajax/libs/moment\\.js/([^/]+)/(moment[^/]*)$",
+    "localTemplate": "lib/moment/$1/$2"
+  },
+  {
+    "host": "cdnjs.cloudflare.com",
+    "pathPattern": "^/ajax/libs/modernizr/([^/]+)/(modernizr[^/]*)$",
+    "localTemplate": "lib/modernizr/$1/$2"
+  },
+  {
+    "host": "cdnjs.cloudflare.com",
+    "pathPattern": "^/ajax/libs/d3/([^/]+)/(d3[^/]*)$",
+    "localTemplate": "lib/d3/$1/$2"
+  },
+  {
+    "host": "cdnjs.cloudflare.com",
+    "pathPattern": "^/ajax/libs/font-awesome/([^/]+)/(css/[^/]*)$",
+    "localTemplate": "lib/fontawesome/$1/$2"
+  },
+  {
+    "host": "cdnjs.cloudflare.com",
+    "pathPattern": "^/ajax/libs/angular\\.js/([^/]+)/(angular[^/]*)$",
+    "localTemplate": "lib/angular/$1/$2"
+  },
+  {
+    "host": "cdn.jsdelivr.net",
+    "pathPattern": "^/npm/jquery@([^/]+)/dist/(jquery[^/]*)$",
+    "localTemplate": "lib/jquery/$1/$2"
+  },
+  {
+    "host": "cdn.jsdelivr.net",
+    "pathPattern": "^/npm/bootstrap@([^/]+)/dist/(css/bootstrap[^/]*)$",
+    "localTemplate": "lib/bootstrap/$1/css/$2"
+  },
+  {
+    "host": "cdn.jsdelivr.net",
+    "pathPattern": "^/npm/bootstrap@([^/]+)/dist/(js/bootstrap[^/]*)$",
+    "localTemplate": "lib/bootstrap/$1/js/$2"
+  },
+  {
+    "host": "cdn.jsdelivr.net",
+    "pathPattern": "^/npm/vue@([^/]+)/dist/(vue[^/]*)$",
+    "localTemplate": "lib/vue/$1/$2"
+  },
+  {
+    "host": "cdn.jsdelivr.net",
+    "pathPattern": "^/npm/react@([^/]+)/umd/(react[^/]*)$",
+    "localTemplate": "lib/react/$1/$2"
+  },
+  {
+    "host": "cdn.jsdelivr.net",
+    "pathPattern": "^/npm/react-dom@([^/]+)/umd/(react-dom[^/]*)$",
+    "localTemplate": "lib/react/$1/$2"
+  },
+  {
+    "host": "cdn.jsdelivr.net",
+    "pathPattern": "^/npm/lodash@([^/]+)/(lodash[^/]*)$",
+    "localTemplate": "lib/lodash/$1/$2"
+  },
+  {
+    "host": "cdn.jsdelivr.net",
+    "pathPattern": "^/npm/moment@([^/]+)/min/(moment[^/]*)$",
+    "localTemplate": "lib/moment/$1/$2"
+  },
+  {
+    "host": "cdn.jsdelivr.net",
+    "pathPattern": "^/npm/modernizr@([^/]+)/dist/(modernizr[^/]*)$",
+    "localTemplate": "lib/modernizr/$1/$2"
+  },
+  {
+    "host": "cdn.jsdelivr.net",
+    "pathPattern": "^/npm/d3@([^/]+)/dist/(d3[^/]*)$",
+    "localTemplate": "lib/d3/$1/$2"
+  },
+  {
+    "host": "cdn.jsdelivr.net",
+    "pathPattern": "^/npm/@fortawesome/fontawesome-free@([^/]+)/(css/[^/]*)$",
+    "localTemplate": "lib/fontawesome/$1/$2"
+  },
+  {
+    "host": "stackpath.bootstrapcdn.com",
+    "pathPattern": "^/bootstrap/([^/]+)/(css/bootstrap[^/]*)$",
+    "localTemplate": "lib/bootstrap/$1/css/$2"
+  },
+  {
+    "host": "stackpath.bootstrapcdn.com",
+    "pathPattern": "^/bootstrap/([^/]+)/(js/bootstrap[^/]*)$",
+    "localTemplate": "lib/bootstrap/$1/js/$2"
+  },
+  {
+    "host": "maxcdn.bootstrapcdn.com",
+    "pathPattern": "^/bootstrap/([^/]+)/(css/bootstrap[^/]*)$",
+    "localTemplate": "lib/bootstrap/$1/css/$2"
+  },
+  {
+    "host": "maxcdn.bootstrapcdn.com",
+    "pathPattern": "^/bootstrap/([^/]+)/(js/bootstrap[^/]*)$",
+    "localTemplate": "lib/bootstrap/$1/js/$2"
+  },
+  {
+    "host": "ajax.aspnetcdn.com",
+    "pathPattern": "^/ajax/(jquery)/([^/]+)/(jquery[^/]*)$",
+    "localTemplate": "lib/$1/$2/$3"
+  },
+  {
+    "host": "yastatic.net",
+    "pathPattern": "^/(jquery)/([^/]+)/(jquery[^/]*)$",
+    "localTemplate": "lib/$1/$2/$3"
+  },
+  {
+    "host": "yastatic.net",
+    "pathPattern": "^/react/([^/]+)/(react[^/]*)$",
+    "localTemplate": "lib/react/$1/$2"
+  }
+]

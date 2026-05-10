@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DurgaShield</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { width:240px; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:#fff; color:#1a1a2e; }
+.header { background:#fff; padding:12px 14px; display:flex; align-items:center; gap:8px; border-bottom:2px solid #e94560; box-shadow:0 1px 2px rgba(0,0,0,.04); }
+.header-icon { width:30px; height:30px; background:#e94560; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:16px; color:white; flex-shrink:0; }
+.header-text { flex:1; min-width:0; }
+.header-text h1 { font-size:14px; font-weight:700; color:#1a1a2e; }
+.header-text span { font-size:10px; color:#666; }
+.switch { position:relative; width:36px; height:20px; flex-shrink:0; }
+.switch input { opacity:0; width:0; height:0; }
+.slider { position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background:#ccc; border-radius:20px; transition:.2s; }
+.slider:before { content:''; position:absolute; height:14px; width:14px; left:3px; bottom:3px; background:white; border-radius:50%; transition:.2s; box-shadow:0 1px 2px rgba(0,0,0,.2); }
+.switch input:checked+.slider { background:#e94560; }
+.switch input:checked+.slider:before { transform:translateX(16px); }
+.status-row { display:flex; justify-content:center; gap:12px; padding:0 14px 10px; font-size:10px; color:#888; }
+.status-row span { display:flex; align-items:center; gap:3px; }
+.dot { width:6px; height:6px; border-radius:50%; display:inline-block; }
+.dot.active { background:#28a745; }
+.dot.paused { background:#ffc107; }
+.dot.inactive { background:#ccc; }
+#trackerSection { display:none; padding:0 14px; max-height:180px; min-height:0; overflow-y:auto; border-bottom:1px solid #eee; }
+#trackerHeader { font-size:9px; color:#666; padding:6px 0 4px; font-weight:600; letter-spacing:.5px; display:flex; justify-content:space-between; align-items:center; }
+.tracker-item { display:flex; align-items:center; justify-content:space-between; padding:3px 0; border-bottom:1px solid #eee; }
+.tracker-item:last-child { border-bottom:none; }
+.tracker-domain { font-size:10px; color:#555; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex:1; min-width:0; padding-right:4px; }
+.tracker-actions { display:flex; gap:2px; flex-shrink:0; }
+.action-btn { width:18px; height:18px; border-radius:3px; border:1px solid #ddd; background:transparent; color:#888; font-size:8px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .1s; line-height:1; }
+.action-btn:hover { border-color:#bbb; color:#555; }
+.action-btn.active-allow { background:#28a745; color:#fff; border-color:#28a745; }
+.action-btn.active-cookie { background:#ffc107; color:#333; border-color:#ffc107; }
+.action-btn.active-block { background:#e94560; color:#fff; border-color:#e94560; }
+.toolbar { display:grid; grid-template-columns:1fr 1fr; gap:0; border-bottom:1px solid #eee; }
+.tool-btn { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; padding:10px 6px; background:#fff; border:none; cursor:pointer; color:#555; font-size:9px; font-weight:600; transition:all .1s; }
+.tool-btn:hover { background:#f8f9fa; color:#e94560; }
+.tool-btn .icon { width:38px; height:38px; border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:18px; color:#fff; }
+.tool-btn:hover .icon { transform:scale(1.08); }
+.tool-btn.settings .icon { background:#e94560; }
+.tool-btn.picker .icon { background:#6c757d; }
+.tool-btn.privacy .icon { background:#17a2b8; }
+.tool-btn.donate .icon { background:#28a745; }
+.footer { padding:6px 14px; background:#f8f9fa; text-align:center; font-size:9px; color:#999; }
+.tracker-empty { font-size:10px; color:#999; padding:4px 0 6px; text-align:center; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-icon">&#x1F6E1;</div>
+  <div class="header-text"><h1>DurgaShield</h1><span id="statusText">Protection active</span></div>
+  <label class="switch" title="Enable / Disable extension"><input type="checkbox" id="masterToggle" checked><span class="slider"></span></label>
+</div>
+<div class="status-row">
+  <span><span class="dot active" id="statusDot"></span> <span id="blockedToday">0</span> blocked today</span>
+</div>
+<div id="trackerSection">
+  <div id="trackerHeader"><span>TRACKERS ON THIS PAGE</span><span id="trackerCount" style="color:#555;">0</span></div>
+  <div id="trackerList"></div>
+</div>
+<div class="toolbar">
+  <button class="tool-btn settings" id="openSettings"><div class="icon">&#x2699;</div> Settings</button>
+  <button class="tool-btn picker" id="elementPickerBtn"><div class="icon">&#x1F9F0;</div> Pick Element</button>
+  <button class="tool-btn privacy" id="privacyBtn"><div class="icon">&#x1F50D;</div> Privacy</button>
+  <button class="tool-btn donate" id="donateBtn"><div class="icon">&#x2764;</div> Donate</button>
+</div>
+<div class="footer">v1.1.0</div>
+<script src="popup.js"></script>
+</body>
+</html>

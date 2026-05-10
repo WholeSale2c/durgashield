@@ -1,0 +1,86 @@
+[
+  {
+    "id": 6001,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": { "urlFilter": "||cdn.cookielaw.org^", "resourceTypes": ["script"] }
+  },
+  {
+    "id": 6002,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": { "urlFilter": "||cookie-cdn.cookiepro.com^", "resourceTypes": ["script"] }
+  },
+  {
+    "id": 6003,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": { "urlFilter": "||onesignal.com/sdks^", "resourceTypes": ["script"] }
+  },
+  {
+    "id": 6004,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": { "urlFilter": "||cdn.onesignal.com^", "resourceTypes": ["script"] }
+  },
+  {
+    "id": 6005,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": { "urlFilter": "||pushwoosh.com^", "resourceTypes": ["script"] }
+  },
+  {
+    "id": 6006,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": { "urlFilter": "||smartbanner.app^", "resourceTypes": ["script"] }
+  },
+  {
+    "id": 6007,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": { "urlFilter": "||cdn.usercentrics.eu^", "resourceTypes": ["script"] }
+  },
+  {
+    "id": 6008,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": { "urlFilter": "||cmp.quantcast.com^", "resourceTypes": ["script"] }
+  },
+  {
+    "id": 6009,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": { "urlFilter": "||cmp2.quantcast.com^", "resourceTypes": ["script"] }
+  },
+  {
+    "id": 6010,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": { "urlFilter": "||fundingchoicesmessages.google.com^", "resourceTypes": ["script"] }
+  },
+  {
+    "id": 6011,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": { "urlFilter": "||consent.google.com^", "resourceTypes": ["script"] }
+  },
+  {
+    "id": 6012,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": { "urlFilter": "||ccpa-platform.privacymanager.io^", "resourceTypes": ["script"] }
+  },
+  {
+    "id": 6013,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": { "urlFilter": "||app.getbeamer.com^", "resourceTypes": ["script"] }
+  },
+  {
+    "id": 6014,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": { "urlFilter": "||cdn-widget-assets.hellobar.com^", "resourceTypes": ["script"] }
+  }
+]

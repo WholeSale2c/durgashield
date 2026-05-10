@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DurgaShield - Settings</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:#f5f7fa; color:#1a1a2e; min-height:100vh; }
+.header { background:#fff; padding:16px 24px; display:flex; align-items:center; gap:12px; border-bottom:2px solid #e94560; position:sticky; top:0; z-index:10; box-shadow:0 1px 3px rgba(0,0,0,.06); }
+.header-icon { width:38px; height:38px; background:#e94560; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:20px; color:white; flex-shrink:0; }
+.header-text { flex:1; }
+.header-text h1 { font-size:18px; font-weight:700; color:#1a1a2e; }
+.header-text span { font-size:12px; color:#666; }
+.nav { display:flex; background:#fff; border-bottom:1px solid #e0e0e0; position:sticky; top:70px; z-index:9; overflow-x:auto; }
+.nav-btn { padding:10px 18px; border:none; background:transparent; color:#666; font-size:12px; font-weight:600; cursor:pointer; white-space:nowrap; border-bottom:2px solid transparent; }
+.nav-btn:hover { color:#333; background:rgba(0,0,0,.03); }
+.nav-btn.active { color:#e94560; border-bottom-color:#e94560; background:rgba(233,69,96,.08); }
+.tab { display:none; padding:20px 24px; max-width:900px; margin:0 auto; }
+.tab.active { display:block; }
+h2 { font-size:16px; color:#e94560; margin-bottom:16px; display:flex; align-items:center; gap:8px; }
+h3 { font-size:13px; color:#333; margin:16px 0 8px; }
+.card { background:#fff; border-radius:8px; padding:16px; margin-bottom:12px; border:1px solid #e0e0e0; box-shadow:0 1px 3px rgba(0,0,0,.04); }
+.setting { display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:1px solid #eee; }
+.setting:last-child { border-bottom:none; }
+.setting-label { font-size:13px; flex:1; }
+.setting-label small { display:block; font-size:11px; color:#888; margin-top:2px; }
+.switch { position:relative; width:40px; height:22px; flex-shrink:0; margin-left:12px; }
+.switch input { opacity:0; width:0; height:0; }
+.slider { position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background:#ccc; border-radius:22px; transition:.2s; }
+.slider:before { content:''; position:absolute; height:16px; width:16px; left:3px; bottom:3px; background:white; border-radius:50%; transition:.2s; box-shadow:0 1px 2px rgba(0,0,0,.2); }
+.switch input:checked+.slider { background:#e94560; }
+.switch input:checked+.slider:before { transform:translateX(18px); }
+.badge { font-size:10px; padding:2px 8px; border-radius:4px; background:#f0f0f0; color:#666; }
+.btn { font-size:11px; padding:6px 14px; border-radius:4px; border:none; cursor:pointer; font-weight:600; }
+.btn-primary { background:#e94560; color:white; }
+.btn-secondary { background:#6c757d; color:#fff; }
+.btn-danger { background:#dc3545; color:white; }
+input[type="text"] { background:#fff; border:1px solid #ddd; color:#1a1a2e; padding:5px 8px; border-radius:3px; font-size:12px; }
+input[type="text"]:focus { outline:none; border-color:#e94560; }
+select { background:#fff; border:1px solid #ddd; color:#1a1a2e; padding:5px; border-radius:3px; font-size:12px; }
+.stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:10px; margin-bottom:16px; }
+.stat-card { text-align:center; padding:12px; background:#f8f9fa; border-radius:6px; border:1px solid #e0e0e0; }
+.stat-value { font-size:24px; font-weight:700; color:#e94560; }
+.stat-label { font-size:10px; color:#888; text-transform:uppercase; letter-spacing:.5px; margin-top:4px; }
+.chart { display:flex; align-items:flex-end; gap:4px; height:80px; margin:10px 0; }
+.bar { flex:1; background:#e94560; border-radius:3px 3px 0 0; min-height:2px; position:relative; }
+.bar-label { position:absolute; bottom:-16px; left:50%; transform:translateX(-50%); font-size:8px; color:#888; white-space:nowrap; }
+.filter-list-item { display:flex; align-items:center; justify-content:space-between; padding:6px 0; border-bottom:1px solid #eee; font-size:12px; }
+.filter-list-item:last-child { border-bottom:none; }
+.rule-entry { display:flex; align-items:center; gap:6px; padding:4px 8px; margin:2px 0; background:#f8f9fa; border-radius:4px; font-size:11px; font-family:monospace; }
+.rule-entry .rule-actions { margin-left:auto; display:flex; gap:4px; }
+.log-entry { padding:3px 6px; font-size:10px; color:#555; border-bottom:1px solid #eee; font-family:monospace; }
+.log-entry:nth-child(odd) { background:rgba(0,0,0,.02); }
+.score-ring { width:80px; height:80px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:28px; font-weight:700; margin:0 auto; }
+.empty-state { text-align:center; padding:20px; font-size:12px; color:#999; }
+a { color:#e94560; text-decoration:none; }
+a:hover { text-decoration:underline; }
+.trk-btn { width:22px; height:22px; border-radius:3px; border:1px solid #ddd; background:transparent; color:#888; font-size:10px; font-weight:700; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; transition:all .1s; line-height:1; }
+.trk-btn:hover { border-color:#bbb; color:#555; }
+.trk-btn.active-allow { background:#28a745; color:#fff; border-color:#28a745; }
+.trk-btn.active-cookie { background:#ffc107; color:#333; border-color:#ffc107; }
+.trk-btn.active-block { background:#e94560; color:#fff; border-color:#e94560; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-icon">&#x1F6E1;</div>
+  <div class="header-text"><h1>DurgaShield</h1><span>All-in-one Privacy & Security</span></div>
+  <span id="protectionBadge" style="background:#28a745;color:white;padding:4px 12px;border-radius:4px;font-size:11px;font-weight:600">Protected</span>
+</div>
+
+<div class="nav" id="tabNav">
+  <button class="nav-btn active" data-tab="dashboard">Dashboard</button>
+  <button class="nav-btn" data-tab="features">Features</button>
+  <button class="nav-btn" data-tab="filters">Filter Lists</button>
+  <button class="nav-btn" data-tab="rules">Custom Rules</button>
+  <button class="nav-btn" data-tab="advanced">Advanced</button>
+  <button class="nav-btn" data-tab="about">About</button>
+</div>
+
+<div class="tab active" id="tabDashboard">
+  <h2>&#x1F4CA; Dashboard</h2>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-value" id="totalBlocked">0</div><div class="stat-label">Total Blocked</div></div>
+    <div class="stat-card"><div class="stat-value" id="todayBlocked">0</div><div class="stat-label">Today</div></div>
+    <div class="stat-card"><div class="stat-value" id="activeFilters">7</div><div class="stat-label">Active Filters</div></div>
+    <div class="stat-card"><div class="stat-value" id="dynamicRules">0</div><div class="stat-label">Dynamic Rules</div></div>
+    <div class="stat-card"><div class="stat-value" id="trackedDomains">0</div><div class="stat-label">Tracked Sites</div></div>
+  </div>
+  <h3>&#x1F4C8; 7-Day Block History</h3>
+  <div class="card"><div class="chart" id="blockChart"></div></div>
+  <h3>&#x1F3AF; Privacy Score</h3>
+  <div class="card" style="text-align:center">
+    <div class="score-ring" id="privacyScoreRing">A</div>
+    <div style="font-size:12px;color:#888;margin-top:8px">Excellent</div>
+  </div>
+  <h3>&#x1F4CC; Top Blocked Domains</h3>
+  <div class="card" id="topDomains" style="font-size:11px;color:#888;max-height:200px;overflow-y:auto"></div>
+  <h3>&#x1F50E; Detected Trackers by Category</h3>
+  <div class="card" id="trackerCategories" style="font-size:12px"></div>
+  <div id="trackerActions" style="font-size:11px;padding:0 0 8px"></div>
+  <button class="btn btn-secondary" id="resetStatsBtn">Reset Stats</button>
+  <h3>&#x1F512; Website Permissions</h3>
+  <div class="card" style="font-size:11px">
+    <div id="permissionsList" style="max-height:160px;overflow-y:auto;color:#888">Loading...</div>
+    <button class="btn btn-secondary" id="clearPermissionsBtn" style="margin-top:8px">Clear data</button>
+  </div>
+</div>
+
+<div class="tab" id="tabFeatures">
+  <h2>&#x2699; Features</h2>
+  <div class="card" id="featureToggles"></div>
+</div>
+
+<div class="tab" id="tabFilters">
+  <h2>&#x1F4E6; Filter Lists</h2>
+  <div class="card" id="filterListsCard"></div>
+  <button class="btn btn-primary" id="updateFiltersBtn">&#x1F504; Update All Filters</button>
+  <span style="font-size:11px;color:#888;margin-left:8px" id="filterUpdateStatus"></span>
+  <div id="filterProgress" style="display:none;margin-top:8px;padding:8px;background:#f8f9fa;border-radius:4px;font-size:11px;color:#555"></div>
+</div>
+
+<div class="tab" id="tabRules">
+  <h2>&#x270F; Custom Rules</h2>
+  <div class="card">
+    <div style="display:flex;gap:4px;margin-bottom:8px">
+      <input type="text" id="customRulePattern" placeholder="||example.com^" style="flex:1">
+      <select id="customRuleAction"><option value="block">Block</option><option value="allow">Allow</option></select>
+      <button class="btn btn-primary" id="addCustomRuleBtn">+ Add</button>
+    </div>
+    <div id="customRulesList" style="max-height:300px;overflow-y:auto"></div>
+  </div>
+  <h3>&#x1F3AC; Whitelisted YouTube Channels</h3>
+  <div class="card" id="ytWhitelistCard" style="font-size:12px"></div>
+</div>
+
+<div class="tab" id="tabAdvanced">
+  <h2>&#x2699; Advanced</h2>
+  <div class="card">
+    <h3>&#x1F4E6; Container Isolation</h3>
+    <div class="setting">
+      <div class="setting-label">Social Media Container <small>Isolates Facebook, Instagram, WhatsApp tabs</small></div>
+      <label class="switch"><input type="checkbox" id="toggle-container" checked><span class="slider"></span></label>
+    </div>
+    <div id="containerStatus" style="font-size:11px;color:#888;margin-top:4px"></div>
+    <div class="domain-list" id="domainList" style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px"></div>
+  </div>
+  <div class="card">
+    <h3>&#x1F4A1; JavaScript Blocking</h3>
+    <div class="setting">
+      <div class="setting-label">Block JavaScript on this site <small>Only blocks JS on the current page domain</small></div>
+      <label class="switch" style="width:36px;height:20px"><input type="checkbox" id="toggle-js-site"><span class="slider" style="border-radius:20px"></span></label>
+    </div>
+    <div class="setting">
+      <div class="setting-label">Block JavaScript globally <small>Block JS on all sites (dangerous - may break pages)</small></div>
+      <label class="switch" style="width:36px;height:20px"><input type="checkbox" id="toggle-js-global"><span class="slider" style="border-radius:20px"></span></label>
+    </div>
+  </div>
+  <div class="card">
+    <h3>&#x1F9F9; Browser Cleanup</h3>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px">
+      <select id="cleanupTimeRange" style="background:#fff;border:1px solid #ddd;color:#1a1a2e;padding:5px 8px;border-radius:3px;font-size:12px">
+        <option value="3600000">Last hour</option>
+        <option value="86400000" selected>Last 24 hours</option>
+        <option value="604800000">Last 7 days</option>
+        <option value="0">All time</option>
+      </select>
+      <span style="font-size:11px;color:#888">Clear:</span>
+      <label style="font-size:11px;color:#555;display:flex;align-items:center;gap:3px"><input type="checkbox" id="cleanupCache" checked> Cache</label>
+      <label style="font-size:11px;color:#555;display:flex;align-items:center;gap:3px"><input type="checkbox" id="cleanupCookies" checked> Cookies</label>
+      <label style="font-size:11px;color:#555;display:flex;align-items:center;gap:3px"><input type="checkbox" id="cleanupHistory"> History</label>
+      <button class="btn btn-primary" id="cleanupBtn">Clean now</button>
+    </div>
+    <div id="cleanupStatus" style="font-size:10px;color:#888"></div>
+  </div>
+  <div class="card">
+    <h3>&#x1F4E5; Import / Export Settings</h3>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-primary" id="exportSettingsBtn">Export Settings</button>
+      <button class="btn btn-secondary" id="importSettingsBtn">Import Settings</button>
+      <input type="file" id="importFileInput" accept=".json" style="display:none">
+    </div>
+    <div id="importExportStatus" style="font-size:10px;color:#888;margin-top:4px"></div>
+  </div>
+  <div class="card">
+    <h3>&#x1F4F3; Filtering Log</h3>
+    <div style="margin-bottom:8px">
+      <button class="btn btn-secondary" id="copyFilterLogBtn">Copy</button>
+      <button class="btn btn-secondary" id="exportFilterLogBtn">Export CSV</button>
+      <button class="btn btn-secondary" id="clearFilterLogBtn">Clear Log</button>
+      <span style="font-size:11px;color:#888;margin-left:8px" id="filterLogCount"></span>
+    </div>
+    <div id="filterLogList" style="max-height:200px;overflow-y:auto;margin-top:8px;font-family:monospace;font-size:10px;color:#888"></div>
+  </div>
+  <div class="card">
+    <h3 title="Enter a DNR rule ID (e.g. 1001) to disable a specific blocking rule. Useful when a filter rule breaks a site — disable just that rule instead of turning off the whole list. Find rule IDs in the filter log.">&#x274C; Disabled Rule IDs <span style="font-weight:400;font-size:10px;color:#888;cursor:help">&#x2753;</span></h3>
+    <div style="display:flex;gap:4px;margin-bottom:8px">
+      <input type="text" id="disabledRuleInput" placeholder="e.g. 1001" style="flex:1">
+      <button class="btn btn-secondary" id="toggleDisabledRuleBtn">Toggle</button>
+    </div>
+    <div id="disabledRulesList" style="font-size:11px;color:#888"></div>
+  </div>
+  <div class="card">
+    <h3>&#x1F504; Filter Auto-Update</h3>
+    <div class="setting">
+      <div class="setting-label">Auto-update filters <small>Automatically fetch latest filter lists every 6 hours</small></div>
+      <label class="switch"><input type="checkbox" id="toggle-autoUpdate" checked><span class="slider"></span></label>
+    </div>
+    <div style="margin-top:8px">
+      <button class="btn btn-primary" id="updateFiltersBtn2">&#x1F504; Update Now</button>
+      <span style="font-size:11px;color:#888;margin-left:8px" id="filterUpdateStatus2"></span>
+    </div>
+  </div>
+  <div class="card" id="cdnReplacementCard" style="display:none">
+    <h3 style="margin:0 0 8px;font-size:14px">&#x1F4E6; CDN Replacement Details</h3>
+    <div id="cdnReplacementDetails" style="font-size:12px"></div>
+  </div>
+  <div class="card">
+    <h3>&#x1F510; Password Leak Check</h3>
+    <div style="display:flex;gap:4px;margin-bottom:8px">
+      <input type="password" id="passwordLeakInput" placeholder="Enter password to check" style="flex:1">
+      <button class="btn btn-primary" id="checkPasswordLeakBtn">Check</button>
+    </div>
+    <div id="passwordLeakResult" style="font-size:12px;color:#888"></div>
+    <div style="margin-top:8px">
+      <span style="font-size:11px;color:#888">Previously checked: </span>
+      <span id="passwordLeakCount" style="font-size:11px;color:#888"></span>
+      <button class="btn btn-secondary" id="clearPasswordLeaksBtn" style="font-size:10px;padding:2px 8px;margin-left:8px">Clear</button>
+    </div>
+  </div>
+  <button class="btn btn-secondary" id="resetStats">Reset Stats</button>
+</div>
+
+    <div class="tab" id="tabAbout">
+      <h2>About</h2>
+      <div class="card">
+        <p style="font-size:13px;color:#555;line-height:1.7">
+          <strong>DurgaShield v1.1.0</strong><br><br>
+          Comprehensive privacy &amp; security for Firefox.<br><br>
+          <a href="privacy.html">Privacy</a> &bull;
+          <a href="donations.html">Donate</a> &bull;
+          <a href="https://github.com/anomalyco/opencode" target="_blank" rel="noopener">GitHub</a>
+        </p>
+      </div>
+      <div class="card" style="margin-top:16px">
+        <h3 style="font-size:15px;margin:0 0 10px 0">All Features</h3>
+        <ul style="font-size:12px;color:#555;line-height:1.7;padding-left:20px;column-count:2;column-gap:30px">
+          <li><strong>Ad Blocker</strong> — Blocks ads, banners, and video ads using filter lists</li>
+          <li><strong>Malware Protection</strong> — Blocks known malicious domains and malware hosts</li>
+          <li><strong>Crypto Miner Blocking</strong> — Prevents in-browser cryptocurrency mining scripts</li>
+          <li><strong>Phishing Protection</strong> — Blocks fake login pages and phishing sites</li>
+          <li><strong>Popup Blocker</strong> — Blocks unwanted popups and new window triggers</li>
+          <li><strong>CDN Tracker Block</strong> — Blocks known CDN tracking domains</li>
+          <li><strong>CDN Replacement</strong> — Serves local copies of CDN libraries to prevent tracking</li>
+          <li><strong>Stealth Mode</strong> — Anti-fingerprinting, WebRTC block, removes URL tracking params</li>
+          <li><strong>Never-Consent</strong> — Auto-dismisses cookie consent banners and GDPR notices</li>
+          <li><strong>Enhanced Anti-Track</strong> — Spoofs browser fingerprints and tracking IDs</li>
+          <li><strong>XSS Protection</strong> — Real-time DOM scanning to block cross-site scripting</li>
+          <li><strong>ClearClick</strong> — Detects and neutralizes invisible clickjacking overlays</li>
+          <li><strong>ABE (Anti-Beacon)</strong> — Local network protection against DNS beacons</li>
+          <li><strong>Secure Payment</strong> — Blocks payment forms on insecure HTTP pages</li>
+          <li><strong>Download Scanner</strong> — Scans downloads for malware and malicious files</li>
+          <li><strong>Social Container</strong> — Isolates Facebook, Instagram, WhatsApp in separate containers</li>
+          <li><strong>Social Media Filter</strong> — Blocks Facebook, Twitter, LinkedIn tracking widgets</li>
+          <li><strong>Annoyance Blocker</strong> — Blocks cookie notices, push notifications, newsletter popups</li>
+          <li><strong>YouTube Channel Whitelist</strong> — Allows ads on supported YouTube channels</li>
+          <li><strong>Metadata Cleanup</strong> — Strips EXIF data from uploaded JPEG images</li>
+          <li><strong>Search Annotations</strong> — Annotates search results with safety icons</li>
+          <li><strong>Adult Content Block</strong> — Blocks adult and pornographic websites</li>
+          <li><strong>Gambling Block</strong> — Blocks online gambling and betting sites</li>
+          <li><strong>Violence & Hate Block</strong> — Blocks violent and hate speech content</li>
+           <li><strong>Video Redirect Guard</strong> — Prevents hidden links in video players from opening tabs</li>
+           <li><strong>HTTPS Enforcement</strong> — Upgrades HTTP connections to HTTPS on major sites</li>
+           <li><strong>Password Leak Check</strong> — Auto-checks passwords against known breaches (HIBP)</li>
+           <li><strong>Filter Log CSV Export</strong> — Downloads filter log as CSV file</li>
+           <li><strong>Notification Batching</strong> — Queues and batches notifications to reduce noise</li>
+           <li><strong>Tracker Map Limits</strong> — Automatically limits tracker map size</li>
+          <li><strong>JavaScript Blocking</strong> — Block JS on specific site or globally (Advanced)</li>
+          <li><strong>Browser Cleanup</strong> — Clear cache, cookies, history on schedule</li>
+          <li><strong>Custom Rules</strong> — Add custom block/allow rules for any domain</li>
+          <li><strong>Filter Lists</strong> — Manage 8+ filter lists (EasyList, EasyPrivacy, URLhaus, etc.)</li>
+          <li><strong>Import/Export</strong> — Backup and restore all settings</li>
+        </ul>
+      </div>
+      <div class="card" style="margin-top:16px">
+        <h3 style="font-size:15px;margin:0 0 10px 0">Filter List Credits</h3>
+        <p style="font-size:11px;color:#777;line-height:1.6">
+          DurgaShield uses the following third-party filter lists. Each is used under its respective license.
+        </p>
+        <table style="font-size:11px;width:100%;border-collapse:collapse">
+          <tr><th style="text-align:left;padding:4px 8px;border-bottom:1px solid #ddd">List</th><th style="text-align:left;padding:4px 8px;border-bottom:1px solid #ddd">License</th><th style="text-align:left;padding:4px 8px;border-bottom:1px solid #ddd">Author</th></tr>
+          <tr><td style="padding:4px 8px">EasyList</td><td style="padding:4px 8px">GPLv3 / CC BY-SA 4.0</td><td style="padding:4px 8px">fanboy+co (eyeo GmbH)</td></tr>
+          <tr><td style="padding:4px 8px">EasyPrivacy</td><td style="padding:4px 8px">GPLv3 / CC BY-SA 4.0</td><td style="padding:4px 8px">fanboy+co (eyeo GmbH)</td></tr>
+          <tr><td style="padding:4px 8px">Peter Lowe's Ad server</td><td style="padding:4px 8px">CC BY-SA 4.0</td><td style="padding:4px 8px">Peter Lowe</td></tr>
+          <tr><td style="padding:4px 8px">Online Malicious URL Blocklist</td><td style="padding:4px 8px">MIT</td><td style="padding:4px 8px">malware-filter project</td></tr>
+          <tr><td style="padding:4px 8px">AdGuard Annoyances</td><td style="padding:4px 8px">CC BY-SA 4.0</td><td style="padding:4px 8px">AdGuard Software Ltd</td></tr>
+          <tr><td style="padding:4px 8px">EasyList Cookie</td><td style="padding:4px 8px">GPLv3 / CC BY-SA 4.0</td><td style="padding:4px 8px">fanboy</td></tr>
+          <tr><td style="padding:4px 8px">Dan Pollock's hosts</td><td style="padding:4px 8px">CC BY 4.0</td><td style="padding:4px 8px">Dan Pollock</td></tr>
+          <tr><td style="padding:4px 8px">Fanboy Annoyances</td><td style="padding:4px 8px">GPLv3 / CC BY-SA 4.0</td><td style="padding:4px 8px">fanboy</td></tr>
+          <tr><td style="padding:4px 8px">Fanboy Social</td><td style="padding:4px 8px">GPLv3 / CC BY-SA 4.0</td><td style="padding:4px 8px">fanboy</td></tr>
+        </table>
+      </div>
+    </div>
+
+<script src="settings.js"></script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DurgaShield - Donate</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f7fa; color: #1a1a2e; min-height: 100vh; }
+.header { background:#fff; padding:16px 24px; display:flex; align-items:center; gap:12px; border-bottom:2px solid #e94560; position:sticky; top:0; z-index:10; box-shadow:0 1px 3px rgba(0,0,0,.06); }
+.header-icon { width:38px; height:38px; background:#e94560; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:20px; color:white; flex-shrink:0; }
+.header-text { flex:1; }
+.header-text h1 { font-size:18px; font-weight:700; color:#1a1a2e; }
+.header-text span { font-size:12px; color:#666; }
+.nav { display:flex; background:#fff; border-bottom:1px solid #e0e0e0; position:sticky; top:70px; z-index:9; overflow-x:auto; }
+.nav-btn { padding:10px 18px; border:none; background:transparent; color:#666; font-size:12px; font-weight:600; cursor:pointer; white-space:nowrap; border-bottom:2px solid transparent; text-decoration:none; display:inline-block; }
+.nav-btn:hover { color:#333; background:rgba(0,0,0,.03); }
+.nav-btn.active { color:#e94560; border-bottom-color:#e94560; background:rgba(233,69,96,.08); }
+.content { padding:30px 24px; max-width:600px; margin:0 auto; line-height:1.7; text-align:center; }
+h1 { color:#e94560; margin-bottom:10px; font-size:28px; }
+h2 { color:#333; margin:20px 0 10px; font-size:18px; }
+p { margin-bottom:16px; font-size:14px; color:#555; }
+.icon { font-size:64px; margin-bottom:20px; }
+.donate-options { display:flex; flex-direction:column; gap:12px; margin:24px 0; }
+.donate-btn { background:#fff; border:2px solid #e94560; color:#e94560; padding:14px 24px; border-radius:8px; font-size:16px; font-weight:600; cursor:pointer; text-decoration:none; transition:.2s; display:inline-block; }
+.donate-btn:hover { background:#e94560; color:#fff; }
+.btc-address { background:#f0f0f0; border-radius:6px; padding:12px; font-family:monospace; font-size:11px; word-break:break-all; color:#333; margin:8px 0; cursor:pointer; user-select:all; border:1px dashed #ccc; }
+.btc-qr { width:180px; height:180px; margin:12px auto; display:block; border-radius:8px; }
+.note { font-size:12px; color:#888; margin-top:8px; }
+.copied-msg { font-size:11px; color:#28a745; display:none; margin-top:4px; }
+hr { border:none; border-top:1px solid #e0e0e0; margin:24px 0; }
+a { color:#e94560; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-icon">&#x1F6E1;</div>
+  <div class="header-text"><h1>DurgaShield</h1><span>Privacy &amp; Security Extension</span></div>
+</div>
+<div class="nav">
+  <a class="nav-btn" href="settings.html">Dashboard</a>
+  <a class="nav-btn" href="settings.html">Features</a>
+  <a class="nav-btn" href="settings.html">Filter Lists</a>
+  <a class="nav-btn" href="settings.html">Custom Rules</a>
+  <a class="nav-btn" href="settings.html">Advanced</a>
+  <a class="nav-btn active" href="donations.html">Donate</a>
+</div>
+<div class="content">
+<div class="icon">&#x2764;</div>
+<h1>Support DurgaShield</h1>
+<p>DurgaShield is provided free of charge, with no ads, and no data collection. If you find it useful, please consider supporting development. Every contribution, no matter how small, helps keep this project alive.</p>
+
+<h2>&#x1F4B5; PayPal</h2>
+<p>Send donations via PayPal to:</p>
+<a href="https://www.paypal.me/contactinvestmentkit" target="_blank" class="donate-btn" rel="noopener">&#x1F4B5; Donate with PayPal</a>
+
+<hr>
+
+<h2>&#x20BF; Bitcoin</h2>
+<p>Donate Bitcoin to the address below:</p>
+<img class="btc-qr" src="bitcoin-QR.jpeg" alt="Bitcoin QR Code">
+<div class="btc-address" id="btcAddress">1FTDxfsegMFBeBKcNZhitPPybxeCcRok8a</div>
+<p class="copied-msg" id="copiedMsg">&#x2713; Address copied to clipboard</p>
+<p class="note">Scan the QR code or copy the address above to send Bitcoin.</p>
+
+<hr>
+
+<p class="note">Your donations help cover hosting, domain costs, and support continued development of new features. Thank you for your support!</p>
+
+<a href="#" class="back" onclick="history.back()">&larr; Back</a>
+<script>
+if (history.length <= 1) document.querySelector('.back').href = chrome.runtime.getURL('popup.html');
+  document.getElementById('btcAddress').addEventListener('click', function() {
+    navigator.clipboard.writeText('1FTDxfsegMFBeBKcNZhitPPybxeCcRok8a').then(function() {
+      var msg = document.getElementById('copiedMsg');
+      msg.style.display = 'block';
+      setTimeout(function() { msg.style.display = 'none'; }, 2000);
+    });
+  });
+</script>
+<p style="margin-top:16px;font-size:13px;color:#888">
+  <a href="settings.html">&larr; Back to Settings</a> &bull;
+  <a href="privacy.html">Privacy Policy</a>
+</p>
+</div>
+</body>
+</html>

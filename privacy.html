@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DurgaShield - Privacy Policy</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f7fa; color: #1a1a2e; min-height: 100vh; }
+.header { background:#fff; padding:16px 24px; display:flex; align-items:center; gap:12px; border-bottom:2px solid #e94560; position:sticky; top:0; z-index:10; box-shadow:0 1px 3px rgba(0,0,0,.06); }
+.header-icon { width:38px; height:38px; background:#e94560; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:20px; color:white; flex-shrink:0; }
+.header-text { flex:1; }
+.header-text h1 { font-size:18px; font-weight:700; color:#1a1a2e; }
+.header-text span { font-size:12px; color:#666; }
+.nav { display:flex; background:#fff; border-bottom:1px solid #e0e0e0; position:sticky; top:70px; z-index:9; overflow-x:auto; }
+.nav-btn { padding:10px 18px; border:none; background:transparent; color:#666; font-size:12px; font-weight:600; cursor:pointer; white-space:nowrap; border-bottom:2px solid transparent; text-decoration:none; display:inline-block; }
+.nav-btn:hover { color:#333; background:rgba(0,0,0,.03); }
+.nav-btn.active { color:#e94560; border-bottom-color:#e94560; background:rgba(233,69,96,.08); }
+.content { padding:30px 24px; max-width:700px; margin:0 auto; line-height:1.7; }
+h1 { color:#e94560; margin-bottom:20px; font-size:24px; }
+h2 { color:#333; margin:20px 0 10px; font-size:18px; }
+p { margin-bottom:12px; font-size:14px; color:#555; }
+ul { margin:8px 0 16px 20px; font-size:14px; color:#555; }
+li { margin-bottom:6px; }
+a { color:#e94560; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-icon">&#x1F6E1;</div>
+  <div class="header-text"><h1>DurgaShield</h1><span>Privacy &amp; Security Extension</span></div>
+</div>
+<div class="nav">
+  <a class="nav-btn" href="settings.html">Dashboard</a>
+  <a class="nav-btn" href="settings.html">Features</a>
+  <a class="nav-btn" href="settings.html">Filter Lists</a>
+  <a class="nav-btn" href="settings.html">Custom Rules</a>
+  <a class="nav-btn" href="settings.html">Advanced</a>
+  <a class="nav-btn active" href="privacy.html">Privacy Policy</a>
+</div>
+<div class="content">
+<h1>Privacy Policy</h1>
+<p>Last updated: May 2026</p>
+
+<h2>Data Collection</h2>
+<p>DurgaShield does <strong>not</strong> collect, store, or transmit any personal data, browsing history, or identifiable information to any external server.</p>
+
+<h2>Local Storage</h2>
+<p>The following data is stored locally in your browser using <code>chrome.storage.local</code> and never leaves your device:</p>
+<ul>
+  <li>Extension configuration (enabled/disabled features)</li>
+  <li>Blocking statistics (total blocked count, daily breakdown)</li>
+  <li>Site-specific whitelist/blacklist entries</li>
+  <li>Filter list update timestamps</li>
+  <li>Custom user-defined rules</li>
+  <li>Disabled rule IDs</li>
+</ul>
+
+<h2>Network Requests</h2>
+<p>The extension makes no network requests of its own. All filtering rules are bundled with the extension or fetched from known filter list sources (e.g., uBlock Origin's filter lists) only when you manually trigger an update. No browsing data is sent anywhere.</p>
+
+<h2>Declarative Net Request</h2>
+<p>DurgaShield uses Firefox's <code>declarativeNetRequest</code> API to block requests locally. All filtering happens on your device. No data about blocked or allowed requests is transmitted externally.</p>
+
+<h2>Third-Party Services</h2>
+<p>This extension does not use any third-party analytics, tracking, or telemetry services.</p>
+
+<h2>Changes</h2>
+<p>If this privacy policy changes, the updated version will be reflected here. Since no data is collected, there is nothing to notify you about.</p>
+
+<h2>Contact</h2>
+<p>For questions about this privacy policy, please open an issue on the extension's repository.</p>
+
+<p style="margin-top:24px;font-size:13px;color:#888">
+  <a href="settings.html">&larr; Back to Settings</a> &bull;
+  <a href="donations.html">Support Development</a>
+</p>
+</div>
+</body>
+</html>

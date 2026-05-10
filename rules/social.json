@@ -1,0 +1,74 @@
+[
+  {
+    "id": 5001,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": { "urlFilter": "||connect.facebook.net^", "resourceTypes": ["script"] }
+  },
+  {
+    "id": 5002,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": { "urlFilter": "||platform.twitter.com/widgets^", "resourceTypes": ["script"] }
+  },
+  {
+    "id": 5003,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": { "urlFilter": "||platform.linkedin.com/in.js^", "resourceTypes": ["script"] }
+  },
+  {
+    "id": 5004,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": { "urlFilter": "||assets.pinterest.com/js/pinit^", "resourceTypes": ["script"] }
+  },
+  {
+    "id": 5005,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": { "urlFilter": "||static.addtoany.com^", "resourceTypes": ["script"] }
+  },
+  {
+    "id": 5006,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": { "urlFilter": "||platform-api.sharethis.com^", "resourceTypes": ["script"] }
+  },
+  {
+    "id": 5007,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": { "urlFilter": "||s7.addthis.com^", "resourceTypes": ["script"] }
+  },
+  {
+    "id": 5008,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": { "urlFilter": "||static.xx.fbcdn.net/rsrc.php/*/facebook.js^", "resourceTypes": ["script"] }
+  },
+  {
+    "id": 5009,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": { "urlFilter": "||platform.instagram.com^", "resourceTypes": ["script"] }
+  },
+  {
+    "id": 5010,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": { "urlFilter": "||www.redditstatic.com/button^", "resourceTypes": ["script"] }
+  },
+  {
+    "id": 5011,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": { "urlFilter": "||apis.google.com/js/plusone^", "resourceTypes": ["script"] }
+  },
+  {
+    "id": 5012,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": { "urlFilter": "||www.google.com/recaptcha/api^", "resourceTypes": ["script"] }
+  }
+]
