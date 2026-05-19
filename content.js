@@ -615,14 +615,14 @@
   function applyExistingFeatures() {
     if (config.popupBlocking) overrideWindowOpen();
     if (config.videoRedirect) preventVideoRedirect();
-    if (config.ads) { if (isYouTube()) blockYouTubeAds(); else removeAdElements(); }
+    if (config.ads) { if (isYouTube()) blockYouTubeAds(); else if (!window.location.hostname.includes('coinmarketcap.com')) removeAdElements(); }
     if (config.ads) removeAdPlaceholders();
     if (config.crypto) { detectCryptoMining(); detectCryptoScams(); }
     if (config.phishing) { detectFakeLoginForms(); detectFakeAddressBar(); detectHttpPasswordFields(); }
     if (config.malware) { detectKeyloggers(); detectTechSupportScams(); }
     if (config.enhancedTracking !== false) preventClipboardHijack();
     if (config.ads && window.location.hostname.includes('facebook.com')) removeFacebookAds();
-    if (config.ads) dismissInterstitials();
+    if (config.ads && !window.location.hostname.includes('coinmarketcap.com')) dismissInterstitials();
     if (config.metadataCleanup) setupMetadataCleanup();
   }
 
@@ -916,7 +916,7 @@
     const isGoogle = hostname().endsWith('.google.com') || hostname() === 'google.com';
     const observer = new MutationObserver(() => {
       if (isGoogle) return;
-      if (config.ads && !isYouTube()) { removeAdElements(); bypassAntiAdblock(); }
+      if (config.ads && !isYouTube() && !window.location.hostname.includes('coinmarketcap.com')) { removeAdElements(); bypassAntiAdblock(); }
       if (config.ads && !isYouTube()) removeAdPlaceholders();
       if (config.crypto) detectCryptoMining();
       if (config.containerIsolation && !isFacebookOrigin()) blockFacebookEmbeds();
