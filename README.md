@@ -18,7 +18,7 @@ A comprehensive Firefox security extension using Manifest V3. Blocks ads, popups
 
 ### CDN Resource Localization (Decentraleyes-style)
 - **Redirects CDN requests** to bundled local copies — prevents tracking via Google Hosted Libraries, CDNJS, jQuery CDN, jsDelivr, and Bootstrap CDN
-- **Bundled libraries**: jQuery 3.x, 2.x, 1.x, AngularJS 1.x, Modernizr, Bootstrap 4.x & 5.x CSS
+- **Bundled libraries**: jQuery 3.6.0 / 3.7.1, AngularJS 1.8.3, Modernizr 2.8.3, Bootstrap 4.6.2 / 5.3.3, D3 7.9.0, FontAwesome 6.5.0, Lodash 4.17.21, Moment 2.29.4, React 18.2.0, Vue 3.4.0 (17 files)
 - **22 DNR redirect rules** (IDs 900001-900044) covering 5 major CDN networks
 - Works out of the box — no configuration needed
 - Toggle on/off via the **CDN Redirect** switch in the popup
@@ -79,10 +79,11 @@ A comprehensive Firefox security extension using Manifest V3. Blocks ads, popups
 - 133+ blocked malware domains including ransomware sites, trojan distributors, spyware, fake antivirus pages, tech support scams, and drive-by download sites
 
 ### Crypto Mining Prevention
-- 124+ blocked crypto mining domains and scripts
-- Detects and removes in-browser miners (CoinHive, CryptoLoot, WebMiner, JS Miner)
-- Blocks WebSocket connections to mining pools
-- Removes cryptonight WebAssembly modules
+- 124+ blocked crypto mining domains and scripts (DNR rules)
+- Detects and removes in-browser miners (CoinHive, CryptoLoot, WebMiner)
+- Blocks WebSocket connections to mining pools via DNR
+- **Safe patterns**: Only flags specific miner script identifiers (`coinhive`, `cryptoloot`, `webminer`, `webmine`). Avoids broad terms like `miner`, `mining`, `hashrate`, `stratum`, `monero`, `cryptonight` to prevent false positives on legitimate crypto/tech sites
+- **Crypto site compatibility**: Skipped entirely on `coinmarketcap.com`, `bitget.com`, and `coingecko.com` to avoid breaking charts, trading UI, and API data
 
 ### Phishing Protection
 - 172+ blocked phishing domains targeting major brands: PayPal, Bank of America, Chase, Wells Fargo, Citibank, Capital One, Apple ID, iCloud, Microsoft, Outlook, Office 365, Amazon, Netflix, Google, Facebook, Instagram, Twitter/X, LinkedIn, Discord, Steam, Epic Games, Adobe, Dropbox
@@ -170,14 +171,14 @@ A comprehensive Firefox security extension using Manifest V3. Blocks ads, popups
 - Up to 4,500 dynamic rules supported (DNR limit)
 - `updateDynamicRules()` applied on install, startup, and periodic refresh
 
-### Stealth Mode (AdGuard-inspired)
+### Stealth Mode (AdGuard-inspired, opt-in)
 - **Referrer hiding**: Injects `<meta name="referrer" content="no-referrer">` to prevent referrer leakage to third parties
 - **WebRTC blocking**: Overrides `RTCPeerConnection` constructor to prevent IP leaks via WebRTC
 - **Canvas fingerprinting protection**: Adds subtle noise (`Math.random() * 0.001`) to canvas `toDataURL()` output and wraps `toBlob()` to mitigate fingerprinting
 - **Hide automation**: Overrides `navigator.webdriver` to return `undefined`
 - **Cookie self-destruction**: Background script removes non-session cookies older than 1 hour from non-whitelisted domains every 30 minutes
+- **Opt-in**: Disabled by default — `history.pushState` neutering breaks SPA navigation. Enable via the **Stealth Mode** switch in the popup
 - Toggle on/off via the **Stealth Mode** switch in the popup
-- Config broadcasted to all tabs on change
 
 ### Filtering Log
 - Records the last 200 blocked requests from DNR matched rules (polled every 10 seconds)
@@ -193,17 +194,19 @@ A comprehensive Firefox security extension using Manifest V3. Blocks ads, popups
 - **Comprehensive selectors** — matches 50+ common cookie banner selectors and button text patterns
 - Runs on page load and respects the **Never-Consent** toggle in popup
 
-### Enhanced Anti-Tracking (Ghostery-inspired)
+### Enhanced Anti-Tracking (Ghostery-inspired, opt-in)
 - **Navigator property spoofing** — randomizes `navigator.languages`, `navigator.hardwareConcurrency`, and `navigator.deviceMemory` to reduce fingerprint uniqueness
 - **Screen property dithering** — adds ±1px noise to `screen.width` and `screen.height`; randomizes `screen.colorDepth` between 24 and 32
 - **Tracking storage removal** — clears common tracking keys from `localStorage`, `sessionStorage`, and `document.cookie` including GA (`_ga`, `_gid`), Facebook (`_fbp`), HubSpot, Intercom, Hotjar, Mixpanel, Amplitude, Segment, FullStory, and 50+ more
+- **Opt-in by default**: Disabled by default to avoid breaking site functionality. Enable via the **Enhanced Anti-Track** toggle in popup
 - Respects the **Enhanced Anti-Track** toggle in popup
 
-### XSS Protection (NoScript-inspired)
+### XSS Protection (NoScript-inspired, opt-in)
 - **CSP injection** — injects a Content-Security-Policy meta tag with restrictive defaults (`default-src 'self'`, `object-src 'none'`)
 - **URL parameter sanitization** — scans URL query parameters for XSS payloads (`<script>`, `javascript:`, `onerror=`, `alert()`, `eval()`) and prompts to reload without the malicious parameter
 - **Mutation monitoring** — observes DOM for injected `<script>`, `<iframe>` with `data:text/html`, and `<a>` with `javascript:` hrefs; removes or neuters them
 - **Form submission protection** — intercepts form submissions and strips XSS patterns from text inputs, highlighting sanitized fields
+- **Opt-in by default**: Disabled by default because CSP injection can break sites that rely on inline scripts/data URIs. Enable via the **XSS Protection** toggle in popup
 - Respects the **XSS Protection** toggle in popup
 
 ### ClearClick Anti-Clickjacking (NoScript-inspired)
@@ -356,6 +359,7 @@ durgashield/
 ├── settings.js            # Settings page logic
 ├── privacy.html           # Privacy policy page
 ├── donations.html         # Donations page
+├── donations.js           # Donations page script
 ├── rules/
 │   ├── ads.json           # 294 ad blocking rules
 │   ├── malware.json       # 133 malware blocking rules
@@ -365,13 +369,23 @@ durgashield/
 │   ├── social.json        # 12 social media widget blocking rules
 │   └── annoyance.json     # 14 cookie consent/push notification blocking rules
 ├── resources/
+│   ├── lib/               # Bundled CDN resources (Decentraleyes-style)
+│   │   ├── jquery/        # jQuery 3.6.0, 3.7.1
+│   │   ├── angular/       # AngularJS 1.8.3
+│   │   ├── bootstrap/     # Bootstrap 4.6.2, 5.3.3
+│   │   ├── d3/            # D3 7.9.0
+│   │   ├── fontawesome/   # FontAwesome 6.5.0
+│   │   ├── lodash/        # Lodash 4.17.21
+│   │   ├── modernizr/     # Modernizr 2.8.3
+│   │   ├── moment/        # Moment 2.29.4
+│   │   ├── react/         # React 18.2.0
+│   │   └── vue/           # Vue 3.4.0
+│   ├── cdn-map.json       # CDN → local resource mapping
+│   ├── angular.min.js     # Legacy AngularJS copy
 │   ├── jquery-3.7.1.min.js
-│   ├── jquery-2.2.4.min.js
-│   ├── jquery-1.12.4.min.js
-│   ├── angular.min.js
-│   ├── modernizr.min.js
+│   ├── bootstrap-4.6.2.min.css
 │   ├── bootstrap-5.3.3.min.css
-│   └── bootstrap-4.6.2.min.css
+│   └── modernizr.min.js
 └── icons/
     ├── icon-16.svg
     ├── icon-48.svg
@@ -397,7 +411,16 @@ MIT
 
 ## Changelog
 
-### v1.1.0 — Missing features added (2026-05-10)
+### v1.0.2 — Crypto site compatibility fixes (2026-05-19)
+- **`detectCryptoMining()` pattern narrowing**: Removed broad patterns (`miner`, `mining`, `monero`, `hashrate`, `stratum`, `cryptonight`) that matched common crypto terms in legitimate scripts — kept only specific miner identifiers (`coinhive`, `cryptoloot`, `webminer`, `webmine`)
+- **Crypto site allowlist**: Added `coinmarketcap.com`, `bitget.com`, and `coingecko.com` to DNR site allow rules and content script skip lists — prevents `removeAdElements()`, `detectCryptoMining()`, `bypassAntiAdblock()`, `dismissInterstitials()`, `scanSuspiciousOverlays()`, `removeAdPlaceholders()`, and `initClearClick()` from breaking charts, trading UI, and API data loading
+- **Opt-in safeguards**: `enhancedTracking`, `xssProtection`, and stealth-mode features (`historyProtection`, `audioFingerprintProtection`, `webglFingerprintProtection`, `domRectProtection`) changed from default-on to opt-in (`!== true`) — their prototype spoofing, CSP injection, and `history.pushState` neutering caused site breakage
+- **Ad keyword regex anchored**: `adKeyword` regex now uses word-boundary anchors `/(^|[\s_-])(a[dds][-\s_]|advert|sponsor|banner|promo)/i` to prevent false-positive matches
+- **ClearClick dismiss button**: Warning bar now includes a Dismiss button so users can close it and interact with CAPTCHAs and legitimate overlays
+- **Canvas/SVG protection**: `removeAdPlaceholders()` skips `<canvas>` and `<svg>` elements to avoid removing chart/render surfaces
+- **`data_collection_permissions`**: Added as `{"required": ["none"]}` for AMO compliance; `strict_min_version` bumped to Firefox 140.0
+
+### v1.0.1 — Missing features added (2026-05-10)
 - **Filter log CSV export**: New "Export CSV" button downloads filter log as CSV
 - **HTTPS Enforcement**: 80 DNR upgradeScheme rules for major sites (togglable feature)
 - **Password Leak Detection**: On-demand HIBP k-anonymity check in Advanced tab

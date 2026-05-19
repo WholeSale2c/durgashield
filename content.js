@@ -237,6 +237,7 @@
   function isYouTube() { const h = hostname(); return h === 'youtube.com' || h === 'm.youtube.com'; }
   function isFacebookOrigin() { const h = window.location.hostname.toLowerCase(); return h.endsWith('facebook.com') || h.endsWith('fb.com') || h.endsWith('facebook.net') || h.endsWith('fbcdn.net'); }
   function isIsolatedPage() { const h = hostname(); return ISOLATED_DOMAINS.some(d => { const c = d.replace(/^www\./, ''); return h === c || h.endsWith('.' + c); }); }
+  function isCryptoSite() { const h = hostname(); return h === 'coinmarketcap.com' || h.endsWith('.coinmarketcap.com') || h === 'bitget.com' || h.endsWith('.bitget.com') || h === 'coingecko.com' || h.endsWith('.coingecko.com'); }
 
   // Inject hide-rule style tag immediately (before any async callback)
   (function() {
@@ -615,14 +616,14 @@
   function applyExistingFeatures() {
     if (config.popupBlocking) overrideWindowOpen();
     if (config.videoRedirect) preventVideoRedirect();
-    if (config.ads) { if (isYouTube()) blockYouTubeAds(); else if (!window.location.hostname.includes('coinmarketcap.com')) removeAdElements(); }
+    if (config.ads) { if (isYouTube()) blockYouTubeAds(); else if (!isCryptoSite()) removeAdElements(); }
     if (config.ads) removeAdPlaceholders();
-    if (config.crypto && !window.location.hostname.includes('coinmarketcap.com')) { detectCryptoMining(); detectCryptoScams(); }
+    if (config.crypto && !isCryptoSite()) { detectCryptoMining(); detectCryptoScams(); }
     if (config.phishing) { detectFakeLoginForms(); detectFakeAddressBar(); detectHttpPasswordFields(); }
     if (config.malware) { detectKeyloggers(); detectTechSupportScams(); }
     if (config.enhancedTracking !== false) preventClipboardHijack();
     if (config.ads && window.location.hostname.includes('facebook.com')) removeFacebookAds();
-    if (config.ads && !window.location.hostname.includes('coinmarketcap.com')) dismissInterstitials();
+    if (config.ads && !isCryptoSite()) dismissInterstitials();
     if (config.metadataCleanup) setupMetadataCleanup();
   }
 
@@ -701,7 +702,7 @@
   }
 
   function removeAdPlaceholders() {
-    const skipHosts = ['mail.google.com', 'outlook.live.com', 'outlook.office.com', 'mail.yahoo.com', 'keep.google.com', 'coinmarketcap.com'];
+    const skipHosts = ['mail.google.com', 'outlook.live.com', 'outlook.office.com', 'mail.yahoo.com', 'keep.google.com', 'coinmarketcap.com', 'bitget.com', 'coingecko.com'];
     const host = window.location.hostname;
     if (skipHosts.some(h => host.includes(h))) return;
     if (host.endsWith('.google.com') || host === 'google.com') return;
@@ -795,7 +796,7 @@
   }
 
   function detectCryptoMining() {
-    const patterns = ['coin-hive', 'coinhive', 'cryptoloot', 'crypto-loot', 'webminer', 'webmine', 'cryptonight'];
+    const patterns = ['coin-hive', 'coinhive', 'cryptoloot', 'crypto-loot', 'webminer', 'webmine'];
     const scripts = document.querySelectorAll('script');
     for (const script of scripts) {
       const src = (script.src || '').toLowerCase();
@@ -916,14 +917,14 @@
     const isGoogle = hostname().endsWith('.google.com') || hostname() === 'google.com';
     const observer = new MutationObserver(() => {
       if (isGoogle) return;
-      if (config.ads && !isYouTube() && !window.location.hostname.includes('coinmarketcap.com')) { removeAdElements(); bypassAntiAdblock(); }
+      if (config.ads && !isYouTube() && !isCryptoSite()) { removeAdElements(); bypassAntiAdblock(); }
       if (config.ads && !isYouTube()) removeAdPlaceholders();
-      if (config.crypto && !window.location.hostname.includes('coinmarketcap.com')) detectCryptoMining();
+      if (config.crypto && !isCryptoSite()) detectCryptoMining();
       if (config.containerIsolation && !isFacebookOrigin()) blockFacebookEmbeds();
       if (config.neverConsent !== false) handleCookieConsent();
       if (config.enhancedTracking === true) removeTrackingStorage();
       if (config.xssProtection === true) { monitorXssMutations(); }
-      if (config.clearClick !== false && !window.location.hostname.includes('coinmarketcap.com')) { scanSuspiciousOverlays(); }
+      if (config.clearClick !== false && !isCryptoSite()) { scanSuspiciousOverlays(); }
       if (config.abe !== false) { checkLocalNetworkContent(); }
       if (window.location.protocol === 'https:') detectMixedContent();
     });
@@ -1559,6 +1560,7 @@
   function initClearClick() {
     if (clearClickInitialized) return;
     if (config.clearClick === false) return;
+    if (isCryptoSite()) return;
     clearClickInitialized = true;
     scanSuspiciousOverlays();
     document.addEventListener('click', clearClickHandler, true);

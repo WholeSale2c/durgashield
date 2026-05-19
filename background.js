@@ -1531,7 +1531,9 @@ const ALLOWED_SITES = [
   { domain: 'githubusercontent.com', desc: 'GitHub user content' },
   { domain: 'github.githubassets.com', desc: 'GitHub assets' },
   { domain: 'githubstatus.com', desc: 'GitHub status' },
-  { domain: 'coinmarketcap.com', desc: 'CoinMarketCap' }
+  { domain: 'coinmarketcap.com', desc: 'CoinMarketCap' },
+  { domain: 'bitget.com', desc: 'BitGet' },
+  { domain: 'coingecko.com', desc: 'CoinGecko' }
 ];
 function buildSiteAllowRules() {
   return ALLOWED_SITES.flatMap((site, i) => [
