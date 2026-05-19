@@ -2,7 +2,7 @@
   if (window._durgashield_loaded) return;
   window._durgashield_loaded = true;
 
-  const config = { ads: true, malware: true, crypto: true, phishing: true, popupBlocking: true, containerIsolation: true, searchAnnotations: true, metadataCleanup: false, videoRedirect: true, stealth: false, enhancedTracking: false, xssProtection: false, clearClick: false };
+  const config = { ads: true, malware: true, crypto: true, phishing: true, popupBlocking: true, containerIsolation: true, searchAnnotations: true, metadataCleanup: false, videoRedirect: false, stealth: false, enhancedTracking: false, xssProtection: false, clearClick: false };
   let zapperActive = false;
   let jsBlocked = false;
 
@@ -615,7 +615,7 @@
 
   function applyExistingFeatures() {
     if (config.popupBlocking) overrideWindowOpen();
-    if (config.videoRedirect) preventVideoRedirect();
+    if (config.videoRedirect === true) preventVideoRedirect();
     if (config.ads) { if (isYouTube()) blockYouTubeAds(); else if (!isCryptoSite()) removeAdElements(); }
     if (config.ads) removeAdPlaceholders();
     if (config.crypto && !isCryptoSite()) { detectCryptoMining(); detectCryptoScams(); }

@@ -412,6 +412,11 @@ MIT
 
 ## Changelog
 
+### v1.0.4 — Video redirect made opt-in, DOM hide instead of remove (2026-05-19)
+- **`preventVideoRedirect()` made opt-in**: `isVideoPlayer()` used `el.closest('[class*="video"]')` — a class containing "video" on the `<body>` or any ancestor element caused ALL link clicks to be blocked, breaking navigation on news sites (aajtak.in, ndtv.com, etc.)
+- **DOM removal → hide**: `removeAdElements()` and `bypassAntiAdblock()` changed from `el.remove()` to `el.style.setProperty('display', 'none', 'important')` — prevents null reference crashes when page JS holds references to ad container elements
+- **Default config aligned**: `videoRedirect: false` in both `content.js` and background.js `DEFAULT_CONFIG`
+
 ### v1.0.3 — Broad DNR pattern cleanup, ClearClick opt-in (2026-05-19)
 - **DNR broad pattern removal**: Removed 6 overly broad substring rules (`analytics.`, `tracking.`, `/ads/`, `/banner/`, `/sponsor/`, `/promo/`) that blocked first-party resources on arbitrary sites — generic substring filters in Firefox DNR lack `third-party` domain matching, causing false-positive blocking on sites that serve scripts/images from `/ads/` paths or use `analytics.`/`tracking.` subdomains internally
 - **ClearClick made opt-in**: Overlay detection caused false positives on sites with sticky headers/ad containers, breaking all link clicks — now only activates when explicitly enabled via toggle
