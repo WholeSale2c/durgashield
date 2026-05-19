@@ -617,7 +617,7 @@
     if (config.videoRedirect) preventVideoRedirect();
     if (config.ads) { if (isYouTube()) blockYouTubeAds(); else if (!window.location.hostname.includes('coinmarketcap.com')) removeAdElements(); }
     if (config.ads) removeAdPlaceholders();
-    if (config.crypto) { detectCryptoMining(); detectCryptoScams(); }
+    if (config.crypto && !window.location.hostname.includes('coinmarketcap.com')) { detectCryptoMining(); detectCryptoScams(); }
     if (config.phishing) { detectFakeLoginForms(); detectFakeAddressBar(); detectHttpPasswordFields(); }
     if (config.malware) { detectKeyloggers(); detectTechSupportScams(); }
     if (config.enhancedTracking !== false) preventClipboardHijack();
@@ -918,7 +918,7 @@
       if (isGoogle) return;
       if (config.ads && !isYouTube() && !window.location.hostname.includes('coinmarketcap.com')) { removeAdElements(); bypassAntiAdblock(); }
       if (config.ads && !isYouTube()) removeAdPlaceholders();
-      if (config.crypto) detectCryptoMining();
+      if (config.crypto && !window.location.hostname.includes('coinmarketcap.com')) detectCryptoMining();
       if (config.containerIsolation && !isFacebookOrigin()) blockFacebookEmbeds();
       if (config.neverConsent !== false) handleCookieConsent();
       if (config.enhancedTracking === true) removeTrackingStorage();
