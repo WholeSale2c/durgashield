@@ -921,7 +921,7 @@
       if (config.crypto) detectCryptoMining();
       if (config.containerIsolation && !isFacebookOrigin()) blockFacebookEmbeds();
       if (config.neverConsent !== false) handleCookieConsent();
-      if (config.enhancedTracking !== false) removeTrackingStorage();
+      if (config.enhancedTracking === true) removeTrackingStorage();
       if (config.xssProtection !== false) { monitorXssMutations(); }
       if (config.clearClick !== false && !window.location.hostname.includes('coinmarketcap.com')) { scanSuspiciousOverlays(); }
       if (config.abe !== false) { checkLocalNetworkContent(); }
@@ -1344,7 +1344,7 @@
 
   function initEnhancedAntiTracking() {
     if (enhancedTrackingInitialized) return;
-    if (config.enhancedTracking === false) return;
+    if (config.enhancedTracking !== true) return;
     enhancedTrackingInitialized = true;
     spoofNavigatorProperties();
     spoofScreenProperties();
