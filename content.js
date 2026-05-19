@@ -795,7 +795,7 @@
   }
 
   function detectCryptoMining() {
-    const patterns = ['coin-hive', 'coinhive', 'cryptoloot', 'crypto-loot', 'miner', 'mining', 'monero', 'webminer', 'webmine', 'cryptonight', 'hashrate', 'stratum'];
+    const patterns = ['coin-hive', 'coinhive', 'cryptoloot', 'crypto-loot', 'webminer', 'webmine', 'cryptonight'];
     const scripts = document.querySelectorAll('script');
     for (const script of scripts) {
       const src = (script.src || '').toLowerCase();
