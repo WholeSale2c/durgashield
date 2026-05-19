@@ -922,7 +922,7 @@
       if (config.containerIsolation && !isFacebookOrigin()) blockFacebookEmbeds();
       if (config.neverConsent !== false) handleCookieConsent();
       if (config.enhancedTracking === true) removeTrackingStorage();
-      if (config.xssProtection !== false) { monitorXssMutations(); }
+      if (config.xssProtection === true) { monitorXssMutations(); }
       if (config.clearClick !== false && !window.location.hostname.includes('coinmarketcap.com')) { scanSuspiciousOverlays(); }
       if (config.abe !== false) { checkLocalNetworkContent(); }
       if (window.location.protocol === 'https:') detectMixedContent();
@@ -1444,7 +1444,7 @@
 
   function initXssProtection() {
     if (xssInitialized) return;
-    if (config.xssProtection === false) return;
+    if (config.xssProtection !== true) return;
     xssInitialized = true;
     injectCspMeta();
     sanitizeUrlXss();
