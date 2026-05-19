@@ -31,8 +31,8 @@ async function ensurePermissions(feature) {
 
 const DEFAULT_CONFIG = {
   ads: true, malware: true, crypto: true, phishing: true,
-  popupBlocking: true, containerIsolation: true, cdn: true, stealth: true,
-  neverConsent: true, enhancedTracking: true, xssProtection: true, clearClick: true, abe: true, securePayment: true,
+  popupBlocking: true, containerIsolation: true, cdn: true, stealth: false,
+  neverConsent: true, enhancedTracking: false, xssProtection: false, clearClick: false, abe: true, securePayment: true,
   downloadScan: true, social: true, annoyance: true, cdnReplacement: true,
   metadataCleanup: false, searchAnnotations: true, videoRedirect: true, httpsEnforce: true, passwordLeakCheck: true,
   'cc-adult': false, 'cc-gambling': false, 'cc-violence': false

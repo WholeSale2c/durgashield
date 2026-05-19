@@ -2,7 +2,7 @@
   if (window._durgashield_loaded) return;
   window._durgashield_loaded = true;
 
-  const config = { ads: true, malware: true, crypto: true, phishing: true, popupBlocking: true, containerIsolation: true, searchAnnotations: true, metadataCleanup: false, videoRedirect: true };
+  const config = { ads: true, malware: true, crypto: true, phishing: true, popupBlocking: true, containerIsolation: true, searchAnnotations: true, metadataCleanup: false, videoRedirect: true, stealth: false, enhancedTracking: false, xssProtection: false, clearClick: false };
   let zapperActive = false;
   let jsBlocked = false;
 
@@ -924,7 +924,7 @@
       if (config.neverConsent !== false) handleCookieConsent();
       if (config.enhancedTracking === true) removeTrackingStorage();
       if (config.xssProtection === true) { monitorXssMutations(); }
-      if (config.clearClick !== false && !isCryptoSite()) { scanSuspiciousOverlays(); }
+      if (config.clearClick === true && !isCryptoSite()) { scanSuspiciousOverlays(); }
       if (config.abe !== false) { checkLocalNetworkContent(); }
       if (window.location.protocol === 'https:') detectMixedContent();
     });
@@ -1559,7 +1559,7 @@
 
   function initClearClick() {
     if (clearClickInitialized) return;
-    if (config.clearClick === false) return;
+    if (config.clearClick !== true) return;
     if (isCryptoSite()) return;
     clearClickInitialized = true;
     scanSuspiciousOverlays();

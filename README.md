@@ -209,10 +209,11 @@ A comprehensive Firefox security extension using Manifest V3. Blocks ads, popups
 - **Opt-in by default**: Disabled by default because CSP injection can break sites that rely on inline scripts/data URIs. Enable via the **XSS Protection** toggle in popup
 - Respects the **XSS Protection** toggle in popup
 
-### ClearClick Anti-Clickjacking (NoScript-inspired)
+### ClearClick Anti-Clickjacking (NoScript-inspired, opt-in)
 - **Overlay detection** — scans for transparent or low-opacity elements (`opacity < 0.5`, `rgba(0,0,0,0)`, `transparent`) that are positioned fixed/absolute with high `z-index` and cover large portions of the page
 - **Click interception** — when a click targets or passes through a suspicious overlay, shows a confirmation dialog before allowing the action
 - **Visual indicator** — marks detected overlays with a subtle red outline
+- **Opt-in by default**: Disabled by default because overlay detection can cause false positives on sites with sticky headers/ad containers, breaking link clicking. Enable via the **ClearClick** toggle in popup
 - Respects the **ClearClick** toggle in popup
 
 ### ABE — Application Boundaries Enforcer (NoScript-inspired)
